@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, {  Fragment } from 'react'
 import Minyada from '../../Sections/Minyada'
 import AboutSec from '../../Sections/About'
 
 import Testimonial from '../../Sections/Testimonial'
 
-class About extends Component {
-    render() {
+const About = ()=>{
+   
         return (
             <>
                 <Minyada />
@@ -14,7 +14,7 @@ class About extends Component {
        {/*         <Testimonial />*/}
             </>
         )
-    }
+    
 }
 
 export default About

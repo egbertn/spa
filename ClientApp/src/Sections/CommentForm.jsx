@@ -1,69 +1,55 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import api from '../axios-orders'
-class CommentForm extends Component {
+const CommentForm = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {comment: {
-            id: null,
-            postId: null,
-            username: '',
-            message: ''
-        },
-        commentPosted: false
-        };
+    const [random, setRandom] = useState(0);
+    const [comment, setComment] = useState({
+        id: null,
+        postId: null,
+        username: '',
+        message: ''
+    });
+    const [commentPosted, setCommentPosted] = useState(false);
+    const randomize = () => setRandom(Math.random());
+
+    const inputChangeHandler = (e) => {
+        setComment(u => u[e.target.name] = e.target.value);
+        randomize();
     }
 
-    inputChangeHandler = (e) => {
-
-        const updatedComment = {...this.state.comment}
-        updatedComment[e.target.name] = e.target.value
-        updatedComment.id = Math.floor(Math.random() * 100)
-        updatedComment.postId = this.props.postId
-
-
-        this.setState({
-            comment: updatedComment
-        })
-    }
-
-    onSubmitHandler = (e) => {
+    const onSubmitHandler = (e) => {
         e.preventDefault()
 
         // console.log(prevComments, 'Comment form')
-        api.post("comments.json", this.state.comment)
-            .then( res => {
+        api.post("comments.json", comment)
+            .then(res => {
                 // console.log("Successfull")
-                this.setState({
-                    commentPosted: true
-                })
+                setCommentPosted(true);
             })
-            .catch( err => {
+            .catch(err => {
                 console.log(err.message)
             })
     }
 
-    render() {
-        // console.log(this.props)
-        let message = ''
-        if(this.state.commentPosted) {
-            message = "Your comment has been successfully posted. Reload to see your comment."
-        }
-        return(
-            <>
-                { message }
+   
+        
+    return (
+        <>
+            {commentPosted && "Your comment has been successfully posted. Reload to see your comment."}
+            {!commentPosted &&
                 <div className="comment-form">
                     <h4 className="comment-title">Leave a comment</h4>
-                    <form onSubmit={ this.onSubmitHandler }>
-                        <input name="username" type="text" placeholder="Your name" onChange={ this.inputChangeHandler } required />
-                        <textarea name="message" placeholder="Write Comments" onChange={ this.inputChangeHandler } required></textarea>
+                    <form onSubmit={onSubmitHandler}>
+                        <input name="username" type="text" placeholder="Your name" onChange={inputChangeHandler} required />
+                        <textarea name="message" placeholder="Write Comments" onChange={inputChangeHandler} required></textarea>
                         <button type="submit" className="btn btn-filled btn-round">Submit</button>
                     </form>
                 </div>
+            }
             </>
-        )
-    }
+    )
 }
+
 
 export default CommentForm
