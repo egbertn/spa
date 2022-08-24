@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import axios from '../axios-orders';
 import Slider, { Settings } from "react-slick";
 
-
-import "slick-carousel/slick/slick.css?v=1337-2021";
-import "slick-carousel/slick/slick-theme.css?v=1337-2021";
 import SingleTestimonial from '../Components/SingleTestimonial';
 
 class Testimonial extends Component {
@@ -33,13 +30,12 @@ class Testimonial extends Component {
         let testimonials = 'Loading...'
         if( this.state.testimonials.length) {
             testimonials = <Slider
-                autoplay
+                autoplay={true}
                 className="test-caro"
                 dots={true}
-                items={1}
-                loop
+                slidesToShow={1}
+                infinite={true}
                 margin={0}
-           
             >
             {
                 this.state.testimonials.map( tsml => {

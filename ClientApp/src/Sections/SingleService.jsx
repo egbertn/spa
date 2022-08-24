@@ -12,7 +12,7 @@ const SingleService =(props) => {
         const serviceId = props.match.params.id;
         console.log(`service id =${serviceId}`)
         setService(appContext.services[serviceId]);
-    }, []);
+    }, [appContext.services, props.match.params.id]);
     return (
         <Page>
             {service === undefined && "Loading..."}

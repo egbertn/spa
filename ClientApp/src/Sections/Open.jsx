@@ -14,11 +14,10 @@ const makeHour = (hourminutes, locale) => {
 } 
 const Open = () => {
     const appContext = useContext(AppContext);
-    const [tim, setTim] = useState(0);
+    const [isOpen, setIsOpen] = useState(true);
     const { locale } = useIntl();
     useEffect(() => {
-        const makeHigher = () => setTim(tim + 1);
-        const ci = setInterval(makeHigher, 1000)
+        const ci = setInterval(checkIsOPen, 1000)
         return () => clearInterval(ci);  
     }, [])
 
@@ -35,11 +34,12 @@ const Open = () => {
         return new Intl.DateTimeFormat(locale, options).format(dt);
     } 
    
-    const isOPen = () => {
+    const checkIsOPen = () => {
         const dt = new Date();
         const day = dt.getDay();
         const hour = dt.getHours() * 100 + dt.getMinutes();
-        return (hour > 1000 && hour < (day <6 ? 2000 : 1300))
+        const service = appContext.open.find(f => f.day === day);
+        setIsOpen(hour >= service.from && hour <= service.to);
     }
    
     return (
@@ -49,7 +49,7 @@ const Open = () => {
                     <div className="col-lg-8 col-md-10 m-auto">
                         <div className="sec-heading">
                             <img src={require("../assets/images/minyada-2.jpeg")} className="minda-2" alt="" />
-                            <h3 className="sec-title blink">Nu: {isOPen() ? "Open" : "Gesloten"}</h3>
+                            <h3 className="sec-title blink">Nu: {isOpen  ? "Open" : "Gesloten"}</h3>
                             <h4>Openingstijden Minyada Thai Massage</h4>
                             <em>Let op, wel altijd eerst even afspraak maken!</em>
                             <br/>

@@ -65,7 +65,7 @@ export
 export
 	const DialogContent = (props) => {
 		const root = props.appElement ?? document.getElementById('root');
-		const [isOpen, setIsOpen] = useState(false);
+	
 		const [boxVisible, setBoxVisible] = useState(false);
 	
 		return root && <Modal closeTimeoutMS={500} appElement={root} onRequestClose={props.onClose}
