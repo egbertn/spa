@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import Slider from 'react-slick';
 import DialogNoId, { DialogContent } from '../Components/Dialog';
 import { AppContext } from '../App';
+import "../assets/css/slick.css?v=1337-2021";
+import "../assets/css/slick-theme.css?v=1337-2021";
 
 const Service = () => { 
     const [showDialog, setShowDialog] = useState(false);
