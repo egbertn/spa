@@ -5,12 +5,7 @@ using StackExchange.Redis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace SPA.Service.Services
@@ -18,17 +13,17 @@ namespace SPA.Service.Services
     /// <summary>
 	/// deals with serialisation to either redis or memory cache using a key
 	/// </summary>
-	public class SerializerService 
+	public class SerializerService
 	{
-	
+
 		private readonly IConnectionMultiplexer _cache;
 		private int? _defaultDb;
 		private readonly DistributedCacheConfig _config;
 		private readonly ILogger<SerializerService> _logger;
-		private static readonly Lazy<JsonSerializerOptions> Options = new Lazy<JsonSerializerOptions>(() => new JsonSerializerOptions(JsonSerializerDefaults.Web) 
-			{ 
-				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, 
-				PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+		private static readonly Lazy<JsonSerializerOptions> Options = new Lazy<JsonSerializerOptions>(() => new JsonSerializerOptions(JsonSerializerDefaults.Web)
+			{
+				DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
 			});
 		public SerializerService(IConnectionMultiplexer cache,
 			IOptions<DistributedCacheConfig> config,
@@ -183,14 +178,14 @@ namespace SPA.Service.Services
 				await db.KeyExpireAsync(setKey, TimeSpan.FromSeconds(timeoutSeconds.Value));
 			}
 
-		}		
+		}
 		public async Task<T> FindById<T>(string setKey, string id) where T : class
 		{
 			if (string.IsNullOrEmpty(setKey))
 			{
 				throw new ArgumentNullException(nameof(setKey));
 			}
-			
+
 
 			var data = await GetDatabase().HashGetAsync(setKey, id);
 			if (!data.IsNullOrEmpty)
@@ -209,7 +204,7 @@ namespace SPA.Service.Services
 			{
 				throw new ArgumentNullException(nameof(keyword));
 			}
-		
+
 			var db = GetDatabase();
 			var keySize = await db.HashLengthAsync(setKey);
 			var keys = db.HashScan(setKey, $"*{keyword.ToLowerInvariant()}*", (int) keySize, 0, 0);
@@ -226,11 +221,11 @@ namespace SPA.Service.Services
 		public async Task AddIndexItemToHashSet(string v, (string index, long id) p)
 		{
 			var db = GetDatabase();
-			
+
 			await db.HashSetAsync(v, p.index, p.id);
-		
+
 		}
-	
+
 
 		/// <summary>
 		/// caches the given data by key

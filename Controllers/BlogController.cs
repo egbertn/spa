@@ -18,11 +18,11 @@ namespace Minyada.Controllers
 
         public BlogsController(
             BlogService blogService,
-          
+
             ILogger<BlogsController> logger)
         {
             _logger = logger;
-          
+
             _blogService = blogService;
         }
          [HttpGet("procedure/{id}.json")]

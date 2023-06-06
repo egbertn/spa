@@ -1,10 +1,11 @@
-#!/snap/bin/powershell
-#Custom build if not using Azure
-#### creates a build for Windows x64 especially for etisalat
-#do not overwrite appsettings.json on the target machine
+#!/usr/bin/pwsh
+
 $publishfolder = '../publish/spa'
 
 $version = '1.0.1'
-
-dotnet publish . --runtime linux-arm --self-contained true -c Release /p:PublishSingleFile=true -p:SourceRevisionId=$version -o $publishfolder
-# scp -r $publishfolder/*  adc@192.168.1.64:/var/www/html/minyada.nl
+dotnet restore -r linux-arm
+rm -rf $publishfolder
+dotnet publish . --runtime linux-arm --self-contained true -c Release /p:PublishTrimmed=false /p:PublishSingleFile=true -p:SourceRevisionId=$version -o $publishfolder
+ssh -f $Env:PIWEB sudo -S systemctl stop kestrel-minyada.service
+scp -r $publishfolder/*  "$Env:PUBLISH/minyada.nl"
+ssh -f $Env:PIWEB sudo -S systemctl start kestrel-minyada.service

@@ -1,87 +1,106 @@
+namespace Minyada;
+
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CommandLine;
-using Microsoft.AspNetCore.Hosting;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Linq;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using SPA.Service.Models;
+using SPA.Service.Services;
+using StackExchange.Redis;
 
-namespace Minyada
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+        var services = builder.Services;
+        builder.Host.UseConsoleLifetime();
+        var configuration = builder.Configuration;
+
+
+        var webOptions = configuration.GetSection("WebOptions").Get<WebOptions>();
+        services.AddSingleton(webOptions);
+
+        services.AddScoped<SerializerService>();
+        services.AddCors(c => c.AddDefaultPolicy(c => c.AllowAnyOrigin()));
+        services.AddScoped<BlogService>();
+        services.AddScoped<MailService>();
+        services.AddControllers();
+        ConfigureRedisCache(services, configuration);
+
+        var useUrls = configuration.GetValue("ASPNETCORE_URLS", $"{Uri.UriSchemeHttp}://0.0.0.0:80")!;
+        var pem = configuration.GetValue<string>("HTTPS_CERTIFICATE_PEM");
+        var pk = configuration.GetValue<string>("HTTPS_CERTIFICATE_PK");
+        IReadOnlyCollection<Uri> urisGiven = useUrls.Split(';').Select(s => new Uri(s)).ToArray();
+        if (File.Exists(pem))
         {
-            CreateHostBuilder(args).Build().Run();
-        }
-		private interface IOptions
-		{
-			[Option(longName: "certificate", shortName: 'c',
-			   HelpText = "Input certificate to be used for ssl. Use full path",
-			   Required = false)]
-			string Certificate { get; set; }
-
-			[Option(longName: "password", shortName: 'p',
-			   HelpText = "certificate password",
-			   Required = false)]
-			string Password { get; set; }
-			[Option(longName: "httponport", shortName: 'h',
-				Required = false, HelpText = "Specifies port to listen on for http (normally port 80)")]
-			int? HttpPort { get; set; }
-			[Option(longName: "sslonport", shortName: 's',
-				Required = false, HelpText = "Specifies port to listen on for SSL")]
-			int? SslOnPort { get; set; }
-
-		}
-		private class CertificateOptions : IOptions
-		{
-			public string Certificate { get; set; }
-			public string Password { get; set; }
-			public int? SslOnPort { get; set; }
-			public int? HttpPort { get; set; }
-
-		}
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-
-                .ConfigureWebHostDefaults(webBuilder =>
+            using var certificate = X509Certificate2.CreateFromPemFile(pem, pk);
+            builder.WebHost.ConfigureKestrel(kestrelOptions =>
+            {
+                //find ssl
+                var splittedUrls = urisGiven.Where(s => s.Scheme == Uri.UriSchemeHttps) ?? throw new InvalidOperationException($"If certificate arn is given, a https uri must be configured {useUrls}");
+                if (certificate != null)
                 {
+                    foreach (var uri in splittedUrls)
+                    {
+                        kestrelOptions.ListenAnyIP(uri.Port, opt =>
+                        {
+                            opt.Protocols = HttpProtocols.Http1AndHttp2;
+                        });
+                    }
+                }
 
-                    webBuilder.UseStartup<Startup>();
-                }).ConfigureWebHost(host =>
-				{
-					host.ConfigureKestrel(options =>
-					{
-						var result = Parser.Default.ParseArguments<CertificateOptions>(args);
-						options.AddServerHeader = false;
-						string cbos_cert = null;
-						var defaultSsslPort = 44336;
-						var defaultHttpPort = 44335;
-						string cbos_pass = null;
+                splittedUrls = urisGiven.Where(f => f.Scheme == Uri.UriSchemeHttp);
 
-						result.WithParsed(a => cbos_cert = a.Certificate);
-						if (string.IsNullOrEmpty(cbos_pass))
-						{
-							result.WithParsed(a => cbos_pass = a.Password);
-						}
-						result.WithParsed(a => defaultHttpPort = a.HttpPort ?? defaultHttpPort);
-						result.WithParsed(a => defaultSsslPort = a.SslOnPort ?? defaultSsslPort);
-						try
-						{
-							options.ListenAnyIP(defaultSsslPort, listenOptions =>
-							{
-								listenOptions.UseHttps(cbos_cert, cbos_pass);
-							});
-						}
-						catch (Exception ex)
-						{
-							Serilog.Log.Logger.Error($"Cannot open {cbos_cert} {ex.Message}");
-						}
-						options.ListenAnyIP(defaultHttpPort); //http
-					});
-				}).UseConsoleLifetime();
+                if (splittedUrls != null)
+                {
+                    foreach (var uri in splittedUrls)
+                    {
+                        kestrelOptions.ListenAnyIP(uri.Port);
+                    }
+
+                }
+            });
+
+        }
+        else
+        {
+            Console.WriteLine($"No PEM found");
+            builder.WebHost.UseUrls(urisGiven.Where(w => w.Scheme == Uri.UriSchemeHttp).Select(s => s.AbsoluteUri).ToArray());
+        }
+        var app = builder.Build();
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+        app.UseCors();
+        app.MapControllers();
+
+        app.MapFallbackToFile("index.html");
+
+        app.Run();
+
+    }
+
+    private static void ConfigureRedisCache(IServiceCollection services, IConfiguration configuration)
+    {
+
+        var distributedCacheConfig = configuration.GetSection("RedisOptions").Get<DistributedCacheConfig>();
+        services.AddSingleton<IConnectionMultiplexer>((e) =>
+        {
+            return ConnectionMultiplexer.Connect(configuration.GetConnectionString("redis"));
+        });
+
     }
 }
