@@ -97,6 +97,7 @@ public class Program
     {
 
         var distributedCacheConfig = configuration.GetSection("RedisOptions").Get<DistributedCacheConfig>();
+        services.AddSingleton(distributedCacheConfig);
         services.AddSingleton<IConnectionMultiplexer>((e) =>
         {
             return ConnectionMultiplexer.Connect(configuration.GetConnectionString("redis"));

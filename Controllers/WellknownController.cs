@@ -1,7 +1,5 @@
-﻿using System;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
 
 namespace Minyada.Controllers
 {

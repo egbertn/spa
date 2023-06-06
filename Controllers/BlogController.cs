@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using SPA.Service.Services;
 using SPA.Service.Models;
 using Microsoft.AspNetCore.Cors;
