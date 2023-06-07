@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useIntl } from 'react-intl';
-import api from '../axios-orders';
+
 import { AppContext } from '../App';
 import { makeHour } from './Open';
 const Appointment = () => {
@@ -19,7 +19,10 @@ const Appointment = () => {
     const [msg, setMsg] = useState('');
     const [show, setShow] = useState(false);
     useEffect(() => {
-        api.get('appointment.json')
+        fetch('appointment.json',  {
+            method: "GET",
+            headers: { 'accept': 'application/json' }
+        })
             .then(res => {
                 const c = res.data;
                 setLf(c.lf);
@@ -52,7 +55,11 @@ const Appointment = () => {
             date: date + " " + time
         }
         // console.log(prevComments, 'Comment form')
-        api.post("appointment.json", appointment)
+        fetch("appointment.json",  {
+            method: "POST",
+            body: JSON.stringify(appointment),
+            headers: { 'Content-Type': 'application/json' }
+        })
             .then(_ => {
                 // console.log("Successfull")
                 setMsg('Uw reservering is ontvangen, ik contacteer u voor bevestiging');
@@ -87,7 +94,7 @@ const Appointment = () => {
             }
         }
         return arr;
-            
+
     }
     return (
         // Appointment section start

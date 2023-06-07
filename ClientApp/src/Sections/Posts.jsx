@@ -1,12 +1,12 @@
 import React, {useState, useEffect } from 'react'
 import Post from '../Components/Post'
-import axios from '../axios-orders'
+
 
 const Posts = (props) => {
 
     const [posts, setPosts] = useState([]);
     useEffect(()=> {
-        axios.get('posts.json')
+        fetch('posts.json', {method: "GET", headers: {"accept": "application/json"}})
             .then( res => {
                 // console.log(res)
                 setPosts({ posts: res.data.slice(0, 3) })
@@ -22,12 +22,12 @@ const Posts = (props) => {
 
         // console.log(this.props)
 
-       
+
 
         return (
             // Posts section start
             <div className="row">
-                
+
                 {posts && posts.map(post => <Post
                     key={post.id}
                     id={post.id}

@@ -1,13 +1,16 @@
 import React, { useState,useEffect, Fragment } from 'react'
 import Comment from '../Components/Comment'
-import api from '../axios-orders'
+
 import CommentForm from './CommentForm'
 
 const Comments = (props) => {
 
     const [comments, setComments] = useState([]);
     useEffect(() => {
-        api.get(`comments${props.postId}.json`)
+        fetch(`comments${props.postId}.json`, {
+            method: "GET",
+            headers: { 'accept': 'application/json' }
+        })
             .then(res => {
                 setComments(res.data);
             })

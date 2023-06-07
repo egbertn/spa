@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import axios from '../axios-orders'
+
 import Post from '../Components/Post'
 
 const Procedure = (props) => {
 
     const [procedures, setProcedures] = useState([]);
-   
+
     useEffect(() => {
-        axios.get('procedures.json')
+        fetch('procedures.json',  {
+            method: "GET",
+            headers: { 'accept': 'application/json' }
+        })
             .then(res => {
                 // console.log(res)
                 setProcedures(res.data.slice(0, 3))
@@ -17,7 +20,7 @@ const Procedure = (props) => {
             })
     }, []);
 
-   
+
 
     // URL should be signle service page -> '/services/'+procedure.
 

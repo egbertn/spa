@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 
-
-import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import Modal from 'react-modal';
 
@@ -29,7 +27,7 @@ export
 	const root = props.appElement ?? document.getElementById('root');
 	const [isOpen, setIsOpen] = useState(false);
 	const [boxVisible, setBoxVisible] = useState(false);
-	
+
 	return root && <Modal closeTimeoutMS={500} appElement={root} onRequestClose={props.onClose}
 		isOpen={props.isOpen} style={customStyles}>
 		 <CSSTransition
@@ -65,9 +63,9 @@ export
 export
 	const DialogContent = (props) => {
 		const root = props.appElement ?? document.getElementById('root');
-	
+
 		const [boxVisible, setBoxVisible] = useState(false);
-	
+
 		return root && <Modal closeTimeoutMS={500} appElement={root} onRequestClose={props.onClose}
 			isOpen={props.isOpen} style={customStyles}>
 			<CSSTransition
@@ -94,13 +92,13 @@ export
 							</button>
 						</div>
 					</div>
-					
 
-				
+
+
 				</div>
 			</CSSTransition>
 		</Modal>
 	}
 
-	
+
 export default DialogNoId;

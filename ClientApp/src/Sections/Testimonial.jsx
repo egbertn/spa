@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'
-import axios from '../axios-orders';
+
 import Slider, { Settings } from "react-slick";
 
 import SingleTestimonial from '../Components/SingleTestimonial';
@@ -8,7 +8,10 @@ const Testimonial = (props) => {
 
     const [testimonials, setTestimonials] = useState([]);
     useEffect(() => {
-        axios.get('testimonials.json')
+        fetch('testimonials.json', {
+            method: "GET",
+            headers: { 'accept': 'application/json' }
+        })
             .then(res => {
                 // console.log(res)
                 setTestimonials(res.data)

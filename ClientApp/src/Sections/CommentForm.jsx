@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-import api from '../axios-orders'
-const CommentForm = (props) => {
+const CommentForm = () => {
 
     const [random, setRandom] = useState(0);
     const [comment, setComment] = useState({
@@ -22,7 +21,11 @@ const CommentForm = (props) => {
         e.preventDefault()
 
         // console.log(prevComments, 'Comment form')
-        api.post("comments.json", comment)
+        fetch("comments.json", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(comment)
+        })
             .then(res => {
                 // console.log("Successfull")
                 setCommentPosted(true);
@@ -32,8 +35,8 @@ const CommentForm = (props) => {
             })
     }
 
-   
-        
+
+
     return (
         <>
             {commentPosted && "Your comment has been successfully posted. Reload to see your comment."}

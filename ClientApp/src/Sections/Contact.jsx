@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import api from '../axios-orders';
+
 const Contact = () => {
     const [contactInfo, setContactInfo] = useState({
         name: '',
@@ -27,7 +27,11 @@ const Contact = () => {
         e.preventDefault()
 
         // console.log(prevComments, 'Comment form')
-        api.post("contact.json", contactInfo)
+        fetch("contact.json", {
+            method: "POST", body: JSON.stringify(contactInfo),
+            headers: {
+                "Content-Type": "application/json",
+            }})
             .then(res => {
                 // console.log("Successfull")
                 setMessagePosted(true);
@@ -38,7 +42,7 @@ const Contact = () => {
             })
     }
     useEffect(() => {
-        api.get('contact.json')
+        fetch('contact.json')
             .then(res => {
                 const c = res.data;
                 setContactInfo( {...contactInfo, lf: c.lf, h: c.h } );

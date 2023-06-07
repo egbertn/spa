@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react'
-import { useIntl, FormattedTime, FormattedDate, DateTimeFormat,  } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { AppContext } from '../App';
 
 export
@@ -11,14 +11,23 @@ const makeHour = (hourminutes, locale) => {
     dt.setHours(hours);
     dt.setMinutes(minutes);
     return new Intl.DateTimeFormat(locale, options).format(dt);
-} 
+}
 const Open = () => {
     const appContext = useContext(AppContext);
     const [isOpen, setIsOpen] = useState(true);
     const { locale } = useIntl();
+
     useEffect(() => {
+        const checkIsOPen = () => {
+            const dt = new Date();
+            const day = dt.getDay();
+            const hour = dt.getHours() * 100 + dt.getMinutes();
+            const service = appContext.open.find(f => f.day === day);
+            setIsOpen(hour >= service.from && hour <= service.to);
+        }
+
         const ci = setInterval(checkIsOPen, 1000)
-        return () => clearInterval(ci);  
+        return () => clearInterval(ci);
     }, [])
 
     /**returns 'maandag' etc */
@@ -28,20 +37,13 @@ const Open = () => {
         const year = dt.getFullYear();
         var options = { weekday: 'long' };
         let d = 0;
-        while (( d =dt.getDay()) !== day) {            
+        while (( d =dt.getDay()) !== day) {
             dt.setDate(year, month, d+1)
         }
         return new Intl.DateTimeFormat(locale, options).format(dt);
-    } 
-   
-    const checkIsOPen = () => {
-        const dt = new Date();
-        const day = dt.getDay();
-        const hour = dt.getHours() * 100 + dt.getMinutes();
-        const service = appContext.open.find(f => f.day === day);
-        setIsOpen(hour >= service.from && hour <= service.to);
     }
-   
+
+
     return (
         <section className="open">
               <div className="container" >
@@ -57,7 +59,7 @@ const Open = () => {
                                 textAlign: 'center', display: 'grid', alignItems: 'center', width: 300,
                                 gap: 20, gridTemplateColumns: '1fr 1fr'
                             }}>
-                                
+
                             {appContext.open.map((m, i) => {
                                 return (<Fragment key={i} ><div style={{ textAlign: 'right' }}>{makeDate(m.day)}</div>
                                     <div style={{ textAlign: 'left' }}>{makeHour(m.from, locale)}-{makeHour(m.to, locale)}</div> </Fragment>

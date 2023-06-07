@@ -1,16 +1,19 @@
 import React, {  Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../axios-orders'
+
 import Page from '../Layouts/Pages/Page'
 import Comments from './Comments'
 
 const SinglePost = (props) => {
-    
+
     const [post, setPost] = useState();
     useEffect(() => {
         const postId = props.match.params.id
         if (postId) {
-            api.get(`post/${postId}.json`)
+            fetch(`post/${postId}.json`, {
+                method: "GET",
+                headers: { 'accept': 'application/json' }
+            })
                 .then(res => {
                     setPost(res.data)
                     // console.log(res.data)
@@ -20,8 +23,8 @@ const SinglePost = (props) => {
 
 
     return (<Page>
-        {post === undefined && "Loading..."} 
-        
+        {post === undefined && "Loading..."}
+
         {post && <Fragment>
             <article className="entry-content">
                 <img src={require("../assets/images/post/1.jpg")} alt="" />

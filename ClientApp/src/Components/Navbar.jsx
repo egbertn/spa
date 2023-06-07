@@ -8,17 +8,19 @@ const Navbar = () => {
     const menuToggleHandler = () => {
         setMenuOpen(!menuOpen);
     }
+    const clearStateHandler = () => {
+            if (menuOpen) {
+                setMenuOpen(false);
+            }
+        }
     useEffect(() =>
     {
+
         return () => clearStateHandler();
     }, [])
 
 
-    const clearStateHandler = () => {
-        if (menuOpen) {
-            setMenuOpen(false);
-        }
-    }
+
 
     const isRoot = location.pathname === "/";
     const absHeader = (isRoot) ? ' abs-header' : '';
