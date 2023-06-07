@@ -1,5 +1,5 @@
 import {useState, createContext} from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layouts/Layout';
 import Home from './Layouts/Pages/Home'
 import Blog from './Layouts/Pages/Blog'
@@ -16,14 +16,14 @@ import './assets/css/bootstrap.min.css'
 import './assets/css/style.css';
 import Testimonial from './Sections/Testimonial';
 
-import s2 from './assets/images/service/2.jpeg' 
-import s3 from './assets/images/service/3.jpeg' 
-import s4 from './assets/images/service/4.jpeg' 
-import s5 from './assets/images/service/5.jpeg' 
-import s6 from './assets/images/service/6.jpeg' 
-import s7 from './assets/images/service/7.jpeg' 
-import s8 from './assets/images/service/8.jpeg' 
-import s9 from './assets/images/service/9.jpeg' 
+import s2 from './assets/images/service/2.jpeg'
+import s3 from './assets/images/service/3.jpeg'
+import s4 from './assets/images/service/4.jpeg'
+import s5 from './assets/images/service/5.jpeg'
+import s6 from './assets/images/service/6.jpeg'
+import s7 from './assets/images/service/7.jpeg'
+import s8 from './assets/images/service/8.jpeg'
+import s9 from './assets/images/service/9.jpeg'
 const openAt = [
   { day: 1, from: 1000, to: 2000 }, //monday
   { day: 2, from: 1000, to: 2000 },
@@ -79,17 +79,17 @@ const App = ()=>  {
         <IntlProvider onError={() => { }} locale={'nl'} >
           <AppContext.Provider value={appContext}>
           <Layout>
-            <Switch>
-              <Route path="/" component={ Home } exact />
-              <Route path="/about" component={ About } />
-              <Route path="/feature" component={Testimonial}/>
-              <Route path="/services" component={ Service } exact />
-              <Route path="/services/:id" component={ SingleService }  />
-              <Route path="/blog" exact component={ Blog } />
-              <Route path="/blog/:id" component={ SinglePost }/>          
-              <Route path="/contact" component={ Contact } />              
-              <Route path="*" component={ ErrorPage } />              
-            </Switch>
+            <Routes>
+              <Route path="/" element={ <Home/> } exact />
+              <Route path="/about" element={ <About/> } />
+              <Route path="/feature" element={<Testimonial/>}/>
+              <Route path="/services" element={ <Service/> } exact />
+              <Route path="/services/:id" element={ <SingleService/> }  />
+              <Route path="/blog" exact element={ <Blog/> } />
+              <Route path="/blog/:id" element={ <SinglePost/> }/>
+              <Route path="/contact" element={ <Contact/> } />
+              <Route path="*" element={ <ErrorPage/> } />
+            </Routes>
             </Layout>
             </AppContext.Provider>
           </IntlProvider>
@@ -97,7 +97,7 @@ const App = ()=>  {
       </BrowserRouter>
     );
   }
-  
+
 
 
 export default App;

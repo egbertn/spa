@@ -1,5 +1,5 @@
 import React, {  useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import api from '../axios-orders';
 const Contact = () => {
@@ -17,12 +17,12 @@ const Contact = () => {
     const randomize = () => setRandom(Math.random());
     const inputChangeHandler = (e) => {
         setContactInfo(u => {
-            u[e.target.name] = e.target.value 
+            u[e.target.name] = e.target.value
             return u;
         });
         randomize()
     }
-    const history = useHistory();
+    const navigate = useNavigate();
     const onSubmitHandler = (e) => {
         e.preventDefault()
 
@@ -31,7 +31,7 @@ const Contact = () => {
             .then(res => {
                 // console.log("Successfull")
                 setMessagePosted(true);
-                history.push('/')
+                navigate('/')
             })
             .catch(err => {
                 console.log(err.message)
@@ -82,7 +82,7 @@ const Contact = () => {
                             </div>
                             <div className="col-md-7 offset-md-1">
                                 <form className="contact-form" >
-                                   
+
                                     <input
                                         type="name"
                                         name="name"

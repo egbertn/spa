@@ -96,7 +96,7 @@ public class Program
     private static void ConfigureRedisCache(IServiceCollection services, IConfiguration configuration)
     {
 
-        var distributedCacheConfig = configuration.GetSection("RedisOptions").Get<DistributedCacheConfig>();
+        var distributedCacheConfig = configuration.GetSection("RedisOptions").Get<DistributedCacheConfig>() ?? new DistributedCacheConfig();
         services.AddSingleton(distributedCacheConfig);
         services.AddSingleton<IConnectionMultiplexer>((e) =>
         {

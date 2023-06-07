@@ -28,7 +28,7 @@ public class SerializerService
         DistributedCacheConfig config,
         ILogger<SerializerService> logger)
     {
-        _config = config == null ? new DistributedCacheConfig { DataTimeOut = 60 } : config;
+        _config = config ?? new DistributedCacheConfig { DataTimeOut = 60 };
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         _logger = logger ?? new NullLogger<SerializerService>();
     }

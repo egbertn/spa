@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
-const Navbar = (props) => {
+const Navbar = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
-   
+    const location = useLocation();
     const menuToggleHandler = () => {
         setMenuOpen(!menuOpen);
     }
@@ -20,7 +20,7 @@ const Navbar = (props) => {
         }
     }
 
-    const isRoot = props.location.pathname === "/";
+    const isRoot = location.pathname === "/";
     const absHeader = (isRoot) ? ' abs-header' : '';
     const right = (isRoot) ? '' : ' text-right';
 
@@ -56,4 +56,4 @@ const Navbar = (props) => {
 
 
 
-export default withRouter(Navbar)
+export default Navbar

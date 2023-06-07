@@ -14,9 +14,9 @@ namespace SPA.Service.Models
 		public int ConnectRetry { get; set; }
 		public int ConnectTimeout { get; set; } = 5000;
 		public string Password { get; set; }
-		/// <summary>
-		/// default Data caching in seconds
-		/// </summary>
-		public int DataTimeOut { get; set; }
-	}
+        /// <summary>
+        /// default Data caching in seconds
+        /// </summary>
+        public int DataTimeOut { get; init; } = 60;
+    }
 }
