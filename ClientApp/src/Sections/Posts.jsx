@@ -6,10 +6,11 @@ const Posts = (props) => {
 
     const [posts, setPosts] = useState([]);
     useEffect(()=> {
-        fetch('posts.json', {method: "GET", headers: {"accept": "application/json"}})
+        fetch('posts.json', { method: "GET", headers: { "accept": "application/json" } })
+            .then(response => response.json())
             .then( res => {
                 // console.log(res)
-                setPosts({ posts: res.data.slice(0, 3) })
+                setPosts({ posts: res.slice(0, 3) })
             })
             .catch( err => {
                 console.log(err)

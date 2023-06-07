@@ -13,7 +13,7 @@ const Procedure = (props) => {
         })
             .then(res => {
                 // console.log(res)
-                setProcedures(res.data.slice(0, 3))
+                setProcedures(res.slice(0, 3))
             })
             .catch(err => {
                 console.log(err)

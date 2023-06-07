@@ -12,9 +12,10 @@ const Testimonial = (props) => {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })
+            .then(response => response.json())
             .then(res => {
                 // console.log(res)
-                setTestimonials(res.data)
+                setTestimonials(res)
             })
             .catch(err => {
                 console.log(err)

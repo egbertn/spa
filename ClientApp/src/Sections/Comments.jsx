@@ -11,8 +11,9 @@ const Comments = (props) => {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })
+            .then(response => response.json())
             .then(res => {
-                setComments(res.data);
+                setComments(res);
             })
             .catch(err => {
                 console.log(err.message)

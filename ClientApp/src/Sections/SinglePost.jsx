@@ -14,9 +14,10 @@ const SinglePost = (props) => {
                 method: "GET",
                 headers: { 'accept': 'application/json' }
             })
+                .then(response => response.json())
                 .then(res => {
-                    setPost(res.data)
-                    // console.log(res.data)
+                    setPost(res)
+                    console.log(res)
                 })
         }
     }, [props.match.params.id])

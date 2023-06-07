@@ -42,9 +42,9 @@ const Contact = () => {
             })
     }
     useEffect(() => {
-        fetch('contact.json')
-            .then(res => {
-                const c = res.data;
+        fetch('contact.json', {method: "GET", headers: {"accept": "application/json"}})
+            .then(response => response.json())
+            .then(c => {
                 setContactInfo( {...contactInfo, lf: c.lf, h: c.h } );
             })
             .catch(err => {

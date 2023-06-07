@@ -23,8 +23,9 @@ const Appointment = () => {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })
-            .then(res => {
-                const c = res.data;
+            .then(response => response.json())
+            .then(c => {
+               
                 setLf(c.lf);
                 seth(c.h);
             })
