@@ -72,7 +72,7 @@ const Appointment = () => {
         }
         // console.log(prevComments, 'Comment form')
         fetch("appointment.json",  {
-
+            method: 'POST',
             body: JSON.stringify(appointment),
             headers: { 'Content-Type': 'application/json' }
         })
