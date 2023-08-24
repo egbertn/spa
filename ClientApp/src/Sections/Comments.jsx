@@ -12,9 +12,7 @@ const Comments = (props) => {
             headers: { 'accept': 'application/json' }
         })
             .then(response => response.json())
-            .then(res => {
-                setComments(res);
-            })
+            .then(setComments)
             .catch(err => {
                 console.log(err.message)
             })

@@ -5,13 +5,28 @@ import { AppContext } from '../App';
 import { makeHour } from './Open';
 const Appointment = () => {
     const appContext = useContext(AppContext);
+
+    const ISODate = (dt) => {
+        if (typeof(dt) === 'number') {
+            dt = new Date(dt);
+        }
+        const myOrder = [
+            dt.getFullYear(), '-',
+            (dt.getUTCMonth() + 1).toString().padStart(2, '0'),
+            '-',
+            dt.getUTCDate().toString().padStart(2, '0')
+
+        ];
+        return myOrder.join('');
+    }
+
     const { locale } = useIntl();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [remarks, setRemarks] = useState('');
     const [service, setService] = useState('');
     const [phone, setPhone] = useState('');
-    const [date, setDate] = useState(new Date().toLocaleTimeString());
+    const [date, setDate] = useState(ISODate(Date.now()));
     const [parsedDate, setParsedDate] = useState(new Date());
     const [time, setTime] = useState(new Date().toLocaleTimeString());
     const [lf, setLf] = useState(0);
@@ -25,7 +40,7 @@ const Appointment = () => {
         })
             .then(response => response.json())
             .then(c => {
-               
+
                 setLf(c.lf);
                 seth(c.h);
             })
@@ -57,7 +72,7 @@ const Appointment = () => {
         }
         // console.log(prevComments, 'Comment form')
         fetch("appointment.json",  {
-            method: "POST",
+
             body: JSON.stringify(appointment),
             headers: { 'Content-Type': 'application/json' }
         })
@@ -122,15 +137,14 @@ const Appointment = () => {
 
                             <div className="select-field">
                                 <select name="service" required onChange={changeServiceHandler}>
-                                    <option></option>
-                                    <option>Thai massage</option>
-                                    <option>Hot stone</option>
-                                    <option>Oliemassage</option>
-                                    <option>Aromatherapie</option>
-                                    <option>Voetmassage</option>
+                                    <option defaultChecked value="thaimassage">Thai massage</option>
+                                    <option value="hotstone">Hot stone</option>
+                                    <option value="oil">Oliemassage</option>
+                                    <option value="aroma">Aromatherapie</option>
+                                    <option value="feet">Voetmassage</option>
                                 </select>
                             </div>
-                            <input type="tel" placeholder="Telefoon (phone)" value={phone} onChange={changePhoneHandler}/>
+                            <input type="tel" placeholder="Telefoon (phone)" required value={phone} onChange={changePhoneHandler}/>
                         </div>
                         <div className="form-field half-width">
                             <input type="date" style={{ width: '50%' }}

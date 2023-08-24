@@ -8,9 +8,12 @@ public class BlogService
     private const string fakedata = @"";
     private readonly ILogger<BlogService> _logger;
     private readonly SerializerService _serializer;
-    public BlogService(ILogger<BlogService> logger, SerializerService serializer)
+    private readonly string _path;
+
+    public BlogService(ILogger<BlogService> logger, SerializerService serializer, IWebHostEnvironment env)
     {
         _serializer = serializer;
+        _path = env.ContentRootPath;
         _logger = logger;
     }
     public async Task<IEnumerable<Comment>> Comments(int postId)
@@ -41,7 +44,7 @@ public class BlogService
     }
     private async Task<SampleData> TestData()
     {
-        var dataFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample-data.json");
+        var dataFile = Path.Combine(_path, "sample-data.json");
         _logger.LogInformation("reading {0}", dataFile);
         using var fileData = File.OpenRead(dataFile);
         var data = await JsonSerializer.DeserializeAsync<SampleData>(fileData, new JsonSerializerOptions(JsonSerializerDefaults.Web));
@@ -51,12 +54,7 @@ public class BlogService
         foreach (var d in data.Procedures) { d.Id = id++; }
         return data;
     }
-    public async Task<bool> CopyFromQueue(string queueName)
-    {
-        _serializer.SetDefaultDatabase(0);
-        //var keys= _serializer.
-        return true;
-    }
+
     public async Task<IEnumerable<BlogItem>> Posts(int page)
     {
         var data = await TestData();

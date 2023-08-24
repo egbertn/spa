@@ -80,12 +80,12 @@ const App = ()=>  {
           <AppContext.Provider value={appContext}>
           <Layout>
             <Routes>
-              <Route path="/" element={ <Home/> } exact />
+              <Route path="/" element={ <Home/> }  />
               <Route path="/about" element={ <About/> } />
               <Route path="/feature" element={<Testimonial/>}/>
-              <Route path="/services" element={ <Service/> } exact />
+              <Route path="/services" element={ <Service/> }  />
               <Route path="/services/:id" element={ <SingleService/> }  />
-              <Route path="/blog" exact element={ <Blog/> } />
+              <Route path="/blog"  element={ <Blog/> } />
               <Route path="/blog/:id" element={ <SinglePost/> }/>
               <Route path="/contact" element={ <Contact/> } />
               <Route path="*" element={ <ErrorPage/> } />
