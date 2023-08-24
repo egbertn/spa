@@ -24,7 +24,7 @@ const Appointment = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [remarks, setRemarks] = useState('');
-    const [service, setService] = useState('');
+    const [service, setService] = useState('thaimassage');
     const [phone, setPhone] = useState('');
     const [date, setDate] = useState(ISODate(Date.now()));
     const [parsedDate, setParsedDate] = useState(new Date());
@@ -136,8 +136,8 @@ const Appointment = () => {
                         <div className="form-field half-width">
 
                             <div className="select-field">
-                                <select name="service" required onChange={changeServiceHandler}>
-                                    <option defaultChecked value="thaimassage">Thai massage</option>
+                                <select name="service" value={service} required onChange={changeServiceHandler}>
+                                    <option value="thaimassage">Thai massage</option>
                                     <option value="hotstone">Hot stone</option>
                                     <option value="oil">Oliemassage</option>
                                     <option value="aroma">Aromatherapie</option>
