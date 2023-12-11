@@ -7,10 +7,9 @@
       <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
       <IsPackable>false</IsPackable>
       <AssemblyName>Service</AssemblyName>
-       <SpaRoot>ClientApp\</SpaRoot>
+       <SpaRoot>clientapp\</SpaRoot>
       <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-      <SpaProxyServerUrl>http://localhost:44415</SpaProxyServerUrl>
-      <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+
       <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
  <ItemGroup>
@@ -24,12 +23,9 @@
 		<Content Update="appsettings.$(MSBuildThisFileName).json" CopyToPublishDirectory="PreserveNewest" />
 </ItemGroup>
  <ItemGroup>
-  <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.4" />
-   <PackageReference Include="MailKit" Version="4.0.0" />
-   <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.5" />
-   <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.5" />
-   <PackageReference Include="Serilog" Version="2.12.0" />
-   <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
+   <PackageReference Include="MailKit" Version="4.3.0" />
+   <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.14" />
+   <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1" />
  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

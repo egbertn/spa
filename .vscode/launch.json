@@ -1,6 +1,5 @@
 {
     "version": "0.2.0",
-    "proxyserver": "http://localhost:44335",
     "configurations": [
         {
             "console": "integratedTerminal",
@@ -12,7 +11,7 @@
             "program": "${workspaceFolder}/bin/Debug/net7.0/Service.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
-            
+
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
@@ -28,7 +27,7 @@
             "name": "Launch edge",
             "request": "launch",
             "type": "msedge",
-            "url": "http://localhost:44335",
+            "url": "https://localhost:5173",
             "webRoot": "${workspaceFolder}"
         },
 

@@ -1,0 +1,19 @@
+{
+    "short_name": "Minyada Thai Massage, Alphen",
+    "description": "Perfecte, persoonlijke massage mogelijk bij Minyada Thai Massage in Alphen aan den Rijn",
+    "keywords": [ "olie massage", "hot stone massage", "Kruidencompres", "aroma therapie" ],
+    "author": "Minyada",
+    "thumbnail": "favicon160.png",
+    "name": "Minyada Thai Massage",
+    "icons": [
+        {
+            "src": "favicon.png",
+            "type": "image/png",
+            "sizes": "180x180"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}

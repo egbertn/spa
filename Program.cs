@@ -13,7 +13,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var services = builder.Services;
+
+            var services = builder.Services;
         builder.Host.UseConsoleLifetime();
         var configuration = builder.Configuration;
 
@@ -22,7 +23,6 @@ public class Program
         services.AddSingleton(webOptions);
 
         services.AddScoped<SerializerService>();
-        services.AddCors(c => c.AddDefaultPolicy(c => c.AllowAnyOrigin()));
         services.AddScoped<BlogService>();
         services.AddScoped<MailService>();
         services.AddControllers();
@@ -40,7 +40,6 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-        app.UseCors();
         app.MapControllers();
 
         app.MapFallbackToFile("index.html");
