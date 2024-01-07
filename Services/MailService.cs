@@ -61,7 +61,8 @@ public class MailService
                 Text = body
             }
         };
-        msg.From.Add(MailboxAddress.Parse(from));
+        msg.ReplyTo.Add(MailboxAddress.Parse(from));
+        msg.From.Add(MailboxAddress.Parse(_options.From));
         msg.To.Add(MailboxAddress.Parse(_options.MailTo));
         return SentMsg(msg);
     }
