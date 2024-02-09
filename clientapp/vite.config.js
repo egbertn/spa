@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgr from 'vite-plugin-svgr';
 import mkcert from 'vite-plugin-mkcert'
 import vitePluginRequire from 'vite-plugin-require'
@@ -10,7 +9,6 @@ export default defineConfig({
         react(),
         vitePluginRequire.default(),
         mkcert(),
-        viteTsconfigPaths(),
         svgr({
         include: '**/*.svg?react',
         }),
