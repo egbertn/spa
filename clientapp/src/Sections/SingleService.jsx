@@ -2,10 +2,10 @@ import React, {  Fragment, useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Page from '../Layouts/Pages/Page'
-import { AppContext } from '../App'
+import  AppContext  from '../context';
 
 const SingleService =(props) => {
- 
+
     const appContext = useContext(AppContext);
     const [service, setService] = useState();
     useEffect(() => {
@@ -28,7 +28,7 @@ const SingleService =(props) => {
             </article>}
         </Page>
     )
-    
+
 }
 
 export default SingleService

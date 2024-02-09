@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgr from 'vite-plugin-svgr';
 import mkcert from 'vite-plugin-mkcert'
+import vitePluginRequire from 'vite-plugin-require'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
         react(),
+        vitePluginRequire.default(),
         mkcert(),
         viteTsconfigPaths(),
         svgr({
@@ -24,7 +26,7 @@ export default defineConfig({
         }),
         port: 5173,
         proxy: {
-            '/': 'http://localhost:44335',
+            '/api': 'http://localhost:44335',
         }
     },
     build: {

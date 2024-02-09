@@ -1,4 +1,4 @@
-import React, {useState, createContext} from 'react'
+import React, {useState} from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layouts/Layout';
 import Home from './Layouts/Pages/Home'
@@ -8,6 +8,7 @@ import Service from './Layouts/Pages/Services'
 import Contact from './Layouts/Pages/Contact'
 import SinglePost from './Sections/SinglePost'
 import SingleService from './Sections/SingleService'
+
 import ErrorPage from './Components/Error'
 import { IntlProvider } from 'react-intl';
 // All external css
@@ -25,13 +26,13 @@ import s7 from './assets/images/service/7.jpeg'
 import s8 from './assets/images/service/8.jpeg'
 import s9 from './assets/images/service/9.jpeg'
 const openAt = [
-  { day: 1, from: 1000, to: 2000 }, //monday
-  { day: 2, from: 1000, to: 2000 },
-  { day: 3, from: 1000, to: 2000 },
-  { day: 4, from: 1000, to: 2000 },
-  { day: 5, from: 1000, to: 2000 },
-  { day: 6, from: 1000, to: 1300 }, //sat
-     { day: 0, from: 1000, to: 1300 }, //sunday
+  { day: 1, from: 1300, to: 2200 }, //monday
+  { day: 2, from: 1300, to: 2200 },
+  { day: 3, from: 1300, to: 2200 },
+  { day: 4, from: 1300, to: 2200 },
+  { day: 5, from: 1300, to: 2200 },
+  { day: 6, from: 1900, to: 2230 }, //sat
+  { day: 0, from: 1900, to: 2230 }, //sunday
 ];
 const imgr =[
   {
@@ -67,9 +68,8 @@ const imgr =[
     body: 'Thaise massage of traditionele massage is typisch Thaise cultuur. Het behoort tot de wetenschap van genezing en behandeling van een tak van de Thaise traditionele geneeskunde. Het richt zich op drukken, rollen, knijpen, buigen, trekken en drukken. Staat algemeen bekend als: "Traditionele massage"'
   },
 ];
+import AppContext from './context'
 
-export
-const AppContext = createContext()
 const App = ()=>  {
 
   const [appContext, _setAppContext] = useState({ n: 'hi', open: openAt, services: imgr});
@@ -87,7 +87,7 @@ const App = ()=>  {
               <Route path="/services/:id" element={ <SingleService/> }  />
               <Route path="/blog"  element={ <Blog/> } />
               <Route path="/blog/:id" element={ <SinglePost/> }/>
-              <Route path="/contact" element={ <Contact/> } />
+                <Route path="/contact" element={<Contact />} />
               <Route path="*" element={ <ErrorPage/> } />
             </Routes>
             </Layout>

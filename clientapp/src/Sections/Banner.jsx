@@ -20,6 +20,8 @@ const banner = props => {
                             {/*    <i className="ti-control-play"></i>*/}
                             {/*    Ons verhaal*/}
                             {/*</a>*/}
+                            <Link to="voucher" spy={true} smooth={true} className="btn">Cadeau / Vouchers</Link>
+
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useIntl } from 'react-intl';
-
-import { AppContext } from '../App';
+import  AppContext  from '../context';
 import { makeHour } from './Open';
 const Appointment = () => {
     const appContext = useContext(AppContext);

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react'
 import { useIntl } from 'react-intl';
-import { AppContext } from '../App';
+import  AppContext from '../context';
 
 export
 const makeHour = (hourminutes, locale) => {
