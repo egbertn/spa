@@ -3,19 +3,12 @@ namespace SPA.Service.Services;
 using SPA.Service.Models;
 using System.Text.Json;
 
-public class BlogService
+public class BlogService(ILogger<BlogService> _logger, SerializerService _serializer, IWebHostEnvironment env)
 {
     private const string fakedata = @"";
-    private readonly ILogger<BlogService> _logger;
-    private readonly SerializerService _serializer;
-    private readonly string _path;
 
-    public BlogService(ILogger<BlogService> logger, SerializerService serializer, IWebHostEnvironment env)
-    {
-        _serializer = serializer;
-        _path = env.ContentRootPath;
-        _logger = logger;
-    }
+    private readonly string _path = env.ContentRootPath;
+
     public async Task<IEnumerable<Comment>> Comments(int postId)
     {
         var data = await TestData();

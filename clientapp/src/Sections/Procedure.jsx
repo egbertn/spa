@@ -7,7 +7,7 @@ const Procedure = (props) => {
     const [procedures, setProcedures] = useState([]);
 
     useEffect(() => {
-        fetch('procedures.json',  {
+        fetch('/api/procedures.json',  {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })

@@ -8,18 +8,17 @@
     "@fontsource/montserrat": "^5.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intl": "^6.4.3",
+    "react-intl": "^6.6.2",
     "react-modal": "^3.16.1",
-    "react-router-dom": "^6.12.0",
-    "react-scroll": "^1.8.9",
-    "react-slick": "^0.29.0",
-    "react-transition-group": "^4.4.5",
-    "vite-plugin-require": "^1.1.14"
+    "react-router-dom": "^6.22.0",
+    "react-scroll": "^1.9.0",
+    "react-slick": "^0.30.1",
+    "react-transition-group": "^4.4.5"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,11 +36,10 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.7",
-    "vite-plugin-mkcert": "^1.17.1",
+    "vite": "^5.1.1",
+    "vite-plugin-mkcert": "^1.17.3",
+    "vite-plugin-require": "^1.1.14",
     "vite-plugin-svgr": "^4.2.0"
   }
 }

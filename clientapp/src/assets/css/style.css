@@ -87,7 +87,9 @@ section {
 .bg-lightred {
   background-color: #fff9f8;
 }
-
+.btn:hover {
+  background-color: #e75d5b; /* Kleur veranderen bij hover */
+}
 .btn {
   background-color: #ff817e;
   border-radius: 0;
@@ -98,6 +100,7 @@ section {
   line-height: 0.8;
   text-transform: uppercase;
   min-width: 170px;
+  margin-right: 10px; /* Ruimte toevoegen tussen buttons */
   padding: 20px 15px;
 }
 
@@ -505,6 +508,10 @@ section {
 
 .post p {
   margin-bottom: 39px;
+}
+.voucher .btn {
+  margin-left: 5px;
+  background-color: #30383b;
 }
 
 .post .btn {

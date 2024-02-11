@@ -21,7 +21,7 @@ const CommentForm = () => {
         e.preventDefault()
 
         // console.log(prevComments, 'Comment form')
-        fetch("comments.json", {
+        fetch("/api/comments.json", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(comment)

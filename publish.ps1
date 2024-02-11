@@ -1,6 +1,7 @@
 #!/usr/bin/pwsh
 
 $publishfolder = '../publish/spa'
+$Env:NODE_ENV = "production"
 
 $version = '1.0.1'
 dotnet restore -r linux-arm

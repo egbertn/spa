@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>3caa8879-8485-4203-9ae4-c33a21eb7dc3</UserSecretsId>
       <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
       <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
@@ -24,8 +24,8 @@
 </ItemGroup>
  <ItemGroup>
    <PackageReference Include="MailKit" Version="4.3.0" />
-   <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.14" />
-   <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1" />
+   <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.1" />
+   <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
@@ -44,7 +44,7 @@
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-        <DistFiles Include="$(SpaRoot)build\**" />
+        <DistFiles Include="$(SpaRoot)dist\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

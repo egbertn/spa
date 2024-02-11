@@ -1,16 +1,25 @@
-import React, { Component } from 'react';
+import React, { useEffect, useContext } from 'react';
+import AppContext from '../context';
 
-class VoucherWidget extends Component {
+const VoucherWidget = () => {
+  const appContext = useContext(AppContext);
 
-  componentDidMount() {
+  useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
     script.src = "https://cdn.giftup.app/dist/gift-up.js";
-    script.onload = this.initializeGiftUpScript;
+    script.onload = initializeGiftUpScript;
     document.body.appendChild(script);
-  }
 
-  initializeGiftUpScript = () => {
+    return () => {
+      const giftUpScript = document.getElementById('gift-up-script');
+      if (giftUpScript) {
+        document.body.removeChild(giftUpScript);
+      }
+    };
+  }, []);
+
+  const initializeGiftUpScript = () => {
     const { giftup } = window;
     if (giftup) {
       giftup({
@@ -18,21 +27,12 @@ class VoucherWidget extends Component {
         platform: 'Other'
       });
     }
-  }
+  };
 
-  componentWillUnmount() {
-    // Clean up the script when component unmounts
-    const giftUpScript = document.getElementById('gift-up-script');
-    if (giftUpScript) {
-      document.body.removeChild(giftUpScript);
-    }
-  }
-
-  render() {
-    return (
-      <div className="gift-up-target" data-site-id="838eda63-7897-4564-96bd-08dc27cf9068" data-platform="Other"></div>
-    );
-  }
-}
+  return <div className="gift-up-target" data-site-id={"838eda63-7897-4564-96bd-08dc27cf9068"}
+    data-language="nl-NL" data-payment-methods="Stripe" data-platform="Other" />;
+};
 
 export default VoucherWidget;
+
+

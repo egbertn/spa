@@ -27,7 +27,7 @@ const Contact = () => {
         e.preventDefault()
 
         // console.log(prevComments, 'Comment form')
-        fetch("contact.json", {
+        fetch("/api/contact.json", {
             method: "POST", body: JSON.stringify(contactInfo),
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const Contact = () => {
             })
     }
     useEffect(() => {
-        fetch('contact.json', {method: "GET", headers: {"accept": "application/json"}})
+        fetch('/api/contact.json', {method: "GET", headers: {"accept": "application/json"}})
             .then(response => response.json())
             .then(c => {
                 setContactInfo( {...contactInfo, lf: c.lf, h: c.h } );

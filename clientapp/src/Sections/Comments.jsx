@@ -7,7 +7,7 @@ const Comments = (props) => {
 
     const [comments, setComments] = useState([]);
     useEffect(() => {
-        fetch(`comments${props.postId}.json`, {
+        fetch(`/api/comments${props.postId}.json`, {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })

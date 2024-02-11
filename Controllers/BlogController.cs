@@ -1,77 +1,74 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SPA.Service.Services;
 using SPA.Service.Models;
-using Microsoft.AspNetCore.Cors;
 
 namespace Minyada.Controllers
 {
     [ApiController]
 
-    public class BlogsController : ControllerBase
+    public class BlogsController(
+        BlogService _blogService,
+
+        ILogger<BlogsController> _logger) : ControllerBase
     {
-
-        private readonly ILogger<BlogsController> _logger;
-        private readonly BlogService _blogService;
-
-        public BlogsController(
-            BlogService blogService,
-
-            ILogger<BlogsController> logger)
+        [HttpGet("/api/config.json")]
+        public IActionResult Config([FromServices] IConfiguration configuration)
         {
-            _logger = logger;
-
-            _blogService = blogService;
+            var siteId = configuration.GetValue<string>("siteId") ??throw new InvalidOperationException("missing siteId");
+            return Ok(new { siteId });
         }
-         [HttpGet("/procedure/{id}.json")]
+
+
+        [HttpGet("/api/procedure/{id}.json")]
         public async Task<IActionResult> Procedures (int id)
         {
             var data = await _blogService.Procedure(id);
             return Ok(data);
         }
-        [HttpGet("/testimonials.json")]
+        [HttpGet("/api/testimonials.json")]
         public async Task<IActionResult> Testimonials()
         {
             var data = await _blogService.Testimonials();
             return Ok(data);
 
         }
-        [HttpGet("/procedures.json")]
+        [HttpGet("/api/procedures.json")]
         public async Task<IActionResult> Procedures ()
         {
             var data = await _blogService.Procedures();
             return Ok(data);
         }
 
-        [HttpGet("/posts.json")]
+        [HttpGet("/api/posts.json")]
         public async Task<IActionResult> Get(int page = 1)
         {
             var data = await _blogService.Posts(page);
             return Ok(data);
         }
-        [HttpGet("/post/{id}.json")]
+        [HttpGet("/api/post/{id}.json")]
         public async Task<IActionResult> Post(int id = 1)
         {
             var data = await _blogService.Post(id);
             return Ok(data);
         }
-        [HttpGet("/contact.json")]
+        [HttpGet("/api/contact.json")]
         public IActionResult Contact()
         {
             return Ok(new Contact());
         }
-        [HttpGet("/comments{postid}.json")]
+        [HttpGet("/api/comments{postid}.json")]
         public async Task<IActionResult> Comments (int postId)
         {
             _logger.LogInformation("getting comments for post {0}", postId);
             var data = await _blogService.Comments(postId);
             return Ok(data);
         }
-        [HttpGet("/appointment.json")]
+        [HttpGet("/api/appointment.json")]
         public IActionResult Appointment()
 		{
             return Ok(new Appointment());
 		}
-        [HttpPost("/appointment.json")]
+        [HttpPost("/api/appointment.json")]
         public async Task<IActionResult> Appointment([FromBody] Appointment appointment, [FromServices] MailService _mailService)
 		{
             if (!ModelState.IsValid)
@@ -85,7 +82,7 @@ namespace Minyada.Controllers
             return NoContent();
 		}
 
-        [HttpPost("/contact.json")]
+        [HttpPost("/api/contact.json")]
         public async Task<IActionResult> Contact([FromBody]Contact contact, [FromServices] MailService _mailService)
         {
             if (!ModelState.IsValid || contact == null)

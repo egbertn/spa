@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layouts/Layout';
 import Home from './Layouts/Pages/Home'
@@ -70,9 +70,28 @@ const imgr =[
 ];
 import AppContext from './context'
 
-const App = ()=>  {
+const App = () => {
+  const [appContext, _setAppContext] = useState(
+    { n: 'hi', open: openAt, services: imgr, siteId: '' });
 
-  const [appContext, _setAppContext] = useState({ n: 'hi', open: openAt, services: imgr});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/config.json');
+        const data = await response.json();
+        _setAppContext((prevAppContext) => ({
+          ...prevAppContext,
+          siteId: data.siteId,
+        }));
+      } catch (error) {
+        console.error('Error fetching config:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
       <BrowserRouter>
       <div className="App">

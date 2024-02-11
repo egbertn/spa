@@ -10,7 +10,7 @@ const SinglePost = (props) => {
     useEffect(() => {
         const postId = props.match.params.id
         if (postId) {
-            fetch(`post/${postId}.json`, {
+            fetch(`/api/post/${postId}.json`, {
                 method: "GET",
                 headers: { 'accept': 'application/json' }
             })

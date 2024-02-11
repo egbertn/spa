@@ -33,7 +33,7 @@ const Appointment = () => {
     const [msg, setMsg] = useState('');
     const [show, setShow] = useState(false);
     useEffect(() => {
-        fetch('appointment.json',  {
+        fetch('/api/appointment.json',  {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })
@@ -70,7 +70,7 @@ const Appointment = () => {
             date: date + " " + time
         }
         // console.log(prevComments, 'Comment form')
-        fetch("appointment.json",  {
+        fetch("/api/appointment.json",  {
             method: 'POST',
             body: JSON.stringify(appointment),
             headers: { 'Content-Type': 'application/json' }

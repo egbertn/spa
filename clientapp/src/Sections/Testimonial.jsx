@@ -8,7 +8,7 @@ const Testimonial = (props) => {
 
     const [testimonials, setTestimonials] = useState([]);
     useEffect(() => {
-        fetch('testimonials.json', {
+        fetch('/api/testimonials.json', {
             method: "GET",
             headers: { 'accept': 'application/json' }
         })
