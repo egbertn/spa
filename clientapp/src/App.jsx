@@ -72,7 +72,9 @@ import AppContext from './context'
 
 const App = () => {
   const [appContext, _setAppContext] = useState(
-    { n: 'hi', open: openAt, services: imgr, siteId: '' });
+    { n: 'hi', open: openAt, services: imgr, siteId: '' }
+  );
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,6 +85,7 @@ const App = () => {
           ...prevAppContext,
           siteId: data.siteId,
         }));
+        setIsLoading(false); // Mark loading as complete after successful data fetch
       } catch (error) {
         console.error('Error fetching config:', error);
       }
@@ -91,31 +94,35 @@ const App = () => {
     fetchData();
   }, []);
 
+  if (isLoading) {
+    // Render a loading indicator or placeholder while data is being fetched
+    return <div>Loading...</div>;
+  }
 
   return (
-      <BrowserRouter>
+    <BrowserRouter>
       <div className="App">
         <IntlProvider onError={() => { }} locale={'nl'} >
           <AppContext.Provider value={appContext}>
-          <Layout>
-            <Routes>
-              <Route path="/" element={ <Home/> }  />
-              <Route path="/about" element={ <About/> } />
-              <Route path="/feature" element={<Testimonial/>}/>
-              <Route path="/services" element={ <Service/> }  />
-              <Route path="/services/:id" element={ <SingleService/> }  />
-              <Route path="/blog"  element={ <Blog/> } />
-              <Route path="/blog/:id" element={ <SinglePost/> }/>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/feature" element={<Testimonial />} />
+                <Route path="/services" element={<Service />} />
+                <Route path="/services/:id" element={<SingleService />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:id" element={<SinglePost />} />
                 <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={ <ErrorPage/> } />
-            </Routes>
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
             </Layout>
-            </AppContext.Provider>
-          </IntlProvider>
-        </div>
-      </BrowserRouter>
-    );
-  }
+          </AppContext.Provider>
+        </IntlProvider>
+      </div>
+    </BrowserRouter>
+  );
+}
 
 
 

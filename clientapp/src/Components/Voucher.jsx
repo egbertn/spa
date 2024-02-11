@@ -23,13 +23,13 @@ const VoucherWidget = () => {
     const { giftup } = window;
     if (giftup) {
       giftup({
-        siteId: '838eda63-7897-4564-96bd-08dc27cf9068',
+        siteId: appContext.siteId,
         platform: 'Other'
       });
     }
   };
 
-  return <div className="gift-up-target" data-site-id={"838eda63-7897-4564-96bd-08dc27cf9068"}
+  return <div className="gift-up-target" data-site-id={appContext.siteId}
     data-language="nl-NL" data-payment-methods="Stripe" data-platform="Other" />;
 };
 
